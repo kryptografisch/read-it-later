@@ -24,14 +24,14 @@ function createEntry(data) {
   div_content.append(item);
 }
 
-const dummy = `{"created":"2022-05-09T21:21:58.297Z", "title":"a story you will never read again", "link":"index.html"}`;
+const dummy = `{"created":"2022-05-09T21:21:58.297Z", "title":"a story you will never read again", "link":"http://test"}`;
 const data = JSON.parse(
   localStorage.getItem(DATA_KEY) || `[${dummy},${dummy}]`
 );
 
 // check if we have a new link
 const parsedUrl = new URL(window.location.toString());
-if (parsedUrl.searchParams.get("title").length) {
+if (parsedUrl.searchParams.get("title")?.length) {
   console.log("WE HAVE A NEW ENTRY!");
   data.push({
     created: new Date().toISOString(),
