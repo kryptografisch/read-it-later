@@ -25,11 +25,8 @@ function createEntry(data) {
 }
 
 const dummy = `{"created":"2022-05-09T21:21:58.297Z", "title":"a story you will never read again", "link":"http://test"}`;
-const data = JSON.parse(
-  localStorage.getItem(DATA_KEY) || `[${dummy},${dummy}]`
-);
+const data = JSON.parse(localStorage.getItem(DATA_KEY) || `[${dummy}]`);
 
-// check if we have a new link
 const parsedUrl = new URL(window.location.toString());
 if (parsedUrl.searchParams.get("title")?.length) {
   console.log("WE HAVE A NEW ENTRY!");
@@ -39,6 +36,7 @@ if (parsedUrl.searchParams.get("title")?.length) {
     link:
       parsedUrl.searchParams.get("text") || parsedUrl.searchParams.get("url"),
   });
+  localStorage.setItem(DATA_KEY, JSON.stringify(data));
 }
 
 console.log(data);
