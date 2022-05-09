@@ -16,9 +16,9 @@ function createReadableDate(dateString) {
 }
 function createEntry(data) {
   const item = template.cloneNode(true);
-  item.childNodes[1].textContent = createReadableDate(data.created);
-  item.childNodes[3].textContent = data.title;
-  item.childNodes[4].href = data.link;
+  item.children[0].textContent = createReadableDate(data.created);
+  item.children[1].textContent = data.title;
+  item.children[2].children[0].href = data.link;
   item.classList.remove("d-none");
   item.classList.remove("_template");
   div_content.append(item);
