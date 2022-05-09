@@ -1,0 +1,14 @@
+{
+  "name": "read-it-later-pwa",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "node_modules\\.bin\\http-server -c-1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}

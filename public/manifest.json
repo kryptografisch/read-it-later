@@ -1,0 +1,10 @@
+{
+  "name": "read-it-later PWA",
+  "short_name": "read-it-later PWA",
+  "display": "standalone",
+  "start_url": "./?utm_source=pwa_install",
+  "scope": ".",
+  "theme_color": "#000",
+  "background_color": "#000",
+  "icons": []
+}

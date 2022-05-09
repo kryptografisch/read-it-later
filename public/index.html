@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>read-it-later PWA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Icons and Colors -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- SEO and Social Sharing and SEO -->
+    <meta name="description" content="Read It Later PWA" />
+    <meta name="robots" content="noodp" />
+    <meta name="author" content="kryptograFisch" />
+    <meta
+      name="keywords"
+      content="ril read-it-later read it later readitlater"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Javscript -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker &&
+            navigator.serviceWorker.register("./sw.js");
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <header>
+      <div class="content">
+        <h1>read-it-later pwa</h1>
+      </div>
+    </header>
+
+    <section>
+      <div class="content">
+        <h2 id="what">Your resources for later</h2>
+      </div>
+    </section>
+
+    <footer>
+      <div class="content"></div>
+    </footer>
+
+    <script defer src="./main.js"></script>
+  </body>
+</html>
