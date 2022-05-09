@@ -29,9 +29,21 @@ const data = JSON.parse(
   localStorage.getItem(DATA_KEY) || `[${dummy},${dummy}]`
 );
 
+// check if we have a new link
+const parsedUrl = new URL(window.location.toString());
+if (parsedUrl.searchParams.get("title").length) {
+  console.log("WE HAVE A NEW ENTRY!");
+  data.push({
+    created: new Date().toISOString(),
+    title: parsedUrl.searchParams.get("title"),
+    link:
+      parsedUrl.searchParams.get("text") || parsedUrl.searchParams.get("url"),
+  });
+}
+
 console.log(data);
 
-data.forEach((element) => createEntry(element));
+data.reverse().forEach((element) => createEntry(element));
 
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");

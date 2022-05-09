@@ -2,9 +2,17 @@
   "name": "read-it-later PWA",
   "short_name": "read-it-later PWA",
   "display": "standalone",
-  "start_url": "./?utm_source=pwa_install",
+  "start_url": "/",
   "scope": ".",
   "theme_color": "#000",
   "background_color": "#000",
-  "icons": []
+  "icons": [],
+  "share_target": {
+    "action": "/",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
