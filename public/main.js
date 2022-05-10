@@ -8,18 +8,16 @@ const template = document.getElementsByClassName("_template")[0];
 
 function createReadableDate(dateString) {
   const date = new Date(dateString);
-  return `${date
-    .getFullYear()
+  return `${date.toLocaleDateString()} ${date
+    .getHours()
     .toString()
-    .slice(2)}-${date.getMonth()}-${date.getDate()} | ${date
-    .toLocaleTimeString()
-    .slice(0, 5)}`;
+    .padStart(2, "0")}:${date.getMinutes()}`;
 }
 function createEntry(data) {
   const item = template.cloneNode(true);
-  item.children[0].textContent = createReadableDate(data.created);
-  item.children[1].textContent = data.title;
-  item.children[2].children[0].href = data.link;
+  item.children[0].children[0].textContent = createReadableDate(data.created);
+  item.children[0].children[1].textContent = data.title;
+  item.children[1].children[0].href = data.link;
   item.classList.remove("d-none");
   item.classList.remove("_template");
   div_content.append(item);

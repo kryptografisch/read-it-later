@@ -14,6 +14,11 @@ body {
   padding: 20px 5%;
 }
 
+.entry-date {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
 .entry-link {
   padding: 0;
   display: flex;
