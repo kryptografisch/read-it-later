@@ -23,7 +23,9 @@ function createEntry(data) {
   div_content.append(item);
 }
 
-const dummy = `{"created":"2022-05-09T21:21:58.297Z", "title":"a story you will never read again", "link":"http://test"}`;
+const dummy = `{"created":"${createReadableDate(
+  new Date()
+)}", "title":"Hello rookie 👋 Your shared links will appear here after sharing to this app 🚀", "link":"https://kryptografische.biz"}`;
 const data = JSON.parse(localStorage.getItem(DATA_KEY) || `[${dummy}]`);
 
 const parsedUrl = new URL(window.location.toString());
