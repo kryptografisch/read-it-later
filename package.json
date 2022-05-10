@@ -4,11 +4,12 @@
   "description": "Read it later PWA",
   "main": "index.html",
   "scripts": {
-    "start": "node_modules\\.bin\\http-server -c-1"
+    "start": "./node_modules/.bin/http-server -p 0",
+    "dev": "node_modules\\.bin\\http-server -c-1"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "http-server": "^14.1.0"
   }
 }
