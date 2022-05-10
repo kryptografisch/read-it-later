@@ -6,6 +6,13 @@ const div_content = document.getElementById("content-container");
 
 const template = document.getElementsByClassName("_template")[0];
 
+const dummy = {
+  created: createReadableDate(new Date()),
+  title:
+    "Hello rookie 👋 Your shared links will appear here after sharing to this app 🚀",
+  link: "https://kryptografische.biz",
+};
+
 function createReadableDate(dateString) {
   const date = new Date(dateString);
   return `${date.toLocaleDateString()} ${date
@@ -23,11 +30,6 @@ function createEntry(data) {
   div_content.append(item);
 }
 
-const dummy = `{"created":"${createReadableDate(
-  new Date()
-)}", "title":"Hello rookie 👋 Your shared links will appear here after sharing to this app 🚀", "link":"https://kryptografische.biz"}`;
-const data = JSON.parse(localStorage.getItem(DATA_KEY) || `[${dummy}]`);
-
 const parsedUrl = new URL(window.location.toString());
 if (parsedUrl.searchParams.get("title")?.length) {
   console.log("WE HAVE A NEW ENTRY!");
@@ -39,13 +41,14 @@ if (parsedUrl.searchParams.get("title")?.length) {
   };
   div_debug.textContent = JSON.stringify(newEntry);
 
+  const data = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
   data.push(newEntry);
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
 }
 
-console.log(data);
-
-data.reverse().forEach((element) => createEntry(element));
+JSON.parse(localStorage.getItem(DATA_KEY) ?? JSON.stringify([dummy]))
+  .reverse()
+  .forEach((element) => createEntry(element));
 
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");
