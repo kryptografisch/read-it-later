@@ -11,7 +11,7 @@ function createReadableDate(dateString) {
   return `${date.toLocaleDateString()} ${date
     .getHours()
     .toString()
-    .padStart(2, "0")}:${date.getMinutes()}`;
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
 function createEntry(data) {
   const item = template.cloneNode(true);
