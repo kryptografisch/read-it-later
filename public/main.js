@@ -37,7 +37,9 @@ if (parsedUrl.searchParams.get("title")?.length) {
     created: new Date().toISOString(),
     title: parsedUrl.searchParams.get("title"),
     link:
-      parsedUrl.searchParams.get("text") || parsedUrl.searchParams.get("url"),
+      parsedUrl.searchParams.get("url") ||
+      parsedUrl.searchParams.get("text") ||
+      parsedUrl.searchParams.get("title"),
   };
   div_debug.textContent = JSON.stringify(newEntry);
 
