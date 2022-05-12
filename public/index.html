@@ -51,9 +51,6 @@
     <header>
       <div class="content main">
         <h1>read-it-later pwa</h1>
-        <button type="button" class="btn btn-light" onclick="addEntry()">
-          + add
-        </button>
       </div>
     </header>
 
@@ -69,7 +66,13 @@
           </div>
           <small>Hint: Currently only supported in Chrome for Android</small>
         </div>
-        <h2 id="what">Your resources for later</h2>
+        <div class="content-header">
+          <h2 id="what">Your links for later</h2>
+
+          <button type="button" class="btn btn-light" onclick="addEntry()">
+            + add
+          </button>
+        </div>
         <p id="loading" class="d-block">loading your items...</p>
         <div id="content-container" class="d-none">
           <ul

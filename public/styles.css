@@ -48,6 +48,11 @@ body {
   display: flex;
 }
 
+.content-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .entry-date {
   font-size: 0.9rem;
   font-weight: bold;
