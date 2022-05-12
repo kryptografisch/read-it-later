@@ -46,6 +46,7 @@ if (parsedUrl.searchParams.get("title")?.length) {
   const data = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
   data.push(newEntry);
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
+  window.location.search = "";
 }
 
 JSON.parse(localStorage.getItem(DATA_KEY) ?? JSON.stringify([dummy]))
