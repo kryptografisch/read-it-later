@@ -10,7 +10,7 @@ const template = document.getElementsByClassName("_template")[0];
 const dummy = {
   created: createReadableDate(new Date()),
   title:
-    "Hello rookie 👋 Your shared links will appear here after sharing to this app 🚀",
+    "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
   link: "https://kryptografische.biz",
 };
 
