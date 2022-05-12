@@ -69,19 +69,19 @@
         <div class="content-header">
           <h2 id="what">Your links for later</h2>
 
-          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal">
+          <button
+            type="button"
+            class="btn btn-light"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+          >
             + add
           </button>
         </div>
         <p id="loading" class="d-block">loading your items...</p>
-        <div id="content-container" class="d-none">
-          
-        </div>
+        <div id="content-container" class="d-none"></div>
         <div id="template_placeholder">
-          <ul
-            class="list-group list-group-horizontal pt-3 "
-            data-index="-1"
-          >
+          <ul class="list-group list-group-horizontal pt-3" data-index="-1">
             <li
               class="list-group-item col col-text"
               onclick="select(this)"
@@ -104,26 +104,53 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Add a new link manually</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form id="entry-form">
-                <div class="mb-3">
-                  <label for="form-title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="form-title">
+              <div class="mb-3">
+                <label for="form-title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="form-title" />
+              </div>
+              <div>
+                <label for="form-link" class="form-label">Link</label>
+                <div class="input-group link-group">
+                  <textarea class="form-control" id="form-link"></textarea>
+
+                  <span class="input-group-text clipboard d-none">
+                    <a href="" onclick="pasteFromClipboard(event)">📋</a>
+                  </span>
                 </div>
-                <div class="mb-3">
-                  <label for="form-link" class="form-label">Link</label>
-                  <textarea type="text" class="form-control" id="form-link"></textarea>
+                <div class="clipboard mt-2 d-none" class="form-text">
+                  Use 📋 to copy from clipboard.
                 </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
-            <button type="button" class="btn btn-primary" onclick="addNewEntry()">add</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="addNewEntry()"
+            >
+              add
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
     <footer>
       <div class="content">

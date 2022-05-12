@@ -46,6 +46,46 @@ fillDomWithEntries(initialEntries);
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");
 
+// init clipboard
+askClipboardPermission();
+async function askClipboardPermission() {
+  const queryOpts = { name: "clipboard-read", allowWithoutGesture: false };
+  try {
+    const permissionStatus = await navigator.permissions.query(queryOpts);
+
+    console.log("Permission status for clipboard:", permissionStatus.state);
+    if (
+      permissionStatus.state == "granted" ||
+      permissionStatus.state == "prompt"
+    ) {
+      Array.from(document.getElementsByClassName("clipboard")).forEach((elem) =>
+        elem.classList.remove("d-none")
+      );
+    }
+
+    permissionStatus.onchange = () => {
+      console.log("chaned", permissionStatus.state);
+      if (
+        permissionStatus.state == "granted" ||
+        permissionStatus.state == "prompt"
+      ) {
+        Array.from(document.getElementsByClassName("clipboard")).forEach(
+          (elem) => elem.classList.remove("d-none")
+        );
+      } else {
+        Array.from(document.getElementsByClassName("clipboard")).forEach(
+          (elem) => elem.classList.add("d-none")
+        );
+      }
+    };
+  } catch (exception) {
+    console.log(
+      "Could not access clipboard",
+      window.location.toString().indexOf("localhost") ? exception : undefined
+    );
+  }
+}
+
 // asnyc functions
 
 function editEntry() {
@@ -109,4 +149,11 @@ function createReadableDate(dateString) {
     .getHours()
     .toString()
     .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+}
+
+async function pasteFromClipboard(event) {
+  event.preventDefault();
+  const element = document.getElementById("form-link");
+  const text = await navigator.clipboard.readText();
+  element.value = text;
 }
