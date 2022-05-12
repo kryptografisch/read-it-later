@@ -3,6 +3,7 @@ const DATA_KEY = "ril-pwa-entries";
 const div_loading = document.getElementById("loading");
 const div_debug = document.getElementById("debug");
 const div_content = document.getElementById("content-container");
+const div_preinstall = document.getElementById("preinstall");
 
 const template = document.getElementsByClassName("_template")[0];
 
@@ -48,8 +49,11 @@ if (parsedUrl.searchParams.get("title")?.length) {
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
   window.location.search = "";
 }
-
-JSON.parse(localStorage.getItem(DATA_KEY) ?? JSON.stringify([dummy]))
+const storage = localStorage.getItem(DATA_KEY);
+if (storage != null) {
+  div_preinstall.style = "display:none";
+}
+JSON.parse(storage ?? JSON.stringify([dummy]))
   .reverse()
   .forEach((element) => createEntry(element));
 
