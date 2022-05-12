@@ -152,6 +152,24 @@ img {
   color: lightcoral;
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+footer a {
+  text-decoration: underline;
+  color: white;
+}
+footer a:hover {
+  text-decoration: none;
+  color: white;
+}
+
 a {
   color: aquamarine;
   font-weight: bold;
