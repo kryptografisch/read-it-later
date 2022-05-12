@@ -59,3 +59,8 @@ JSON.parse(storage ?? JSON.stringify([dummy]))
 
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");
+
+function addEntry() {
+  console.log("adding entry will be added soon");
+  alert("will be implemented soon!");
+}

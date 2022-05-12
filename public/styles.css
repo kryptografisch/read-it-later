@@ -44,6 +44,18 @@ body {
   height: 100%;
 }
 
+.content.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content.main h1 {
+  margin-bottom: 0;
+}
+.content.main button {
+  line-height: 1;
+}
+
 section {
   background-color: #171717;
 }
