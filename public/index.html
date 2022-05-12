@@ -107,8 +107,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Form fields will be added soon</p>
-            <form id="entry-form"></form>
+            <form id="entry-form">
+                <div class="mb-3">
+                  <label for="form-title" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="form-title">
+                </div>
+                <div class="mb-3">
+                  <label for="form-link" class="form-label">Link</label>
+                  <textarea type="text" class="form-control" id="form-link"></textarea>
+                </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>

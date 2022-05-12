@@ -66,10 +66,9 @@ function fillDomWithEntries(entries) {
 }
 
 function addNewEntry() {
-  const date = document.getElementsByName("new-date")[0] || new Date();
-  const title = document.getElementsByName("new-title")[0] || "form-test";
-  const link = document.getElementsByName("new-link")[0] || "form-link";
-  const entry = createEntryObject(date, title, link);
+  const title = document.getElementById("form-title").value;
+  const link = document.getElementById("form-link").value;
+  const entry = createEntryObject(new Date(), title, link);
 
   const entries = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
   entries.push(entry);
@@ -99,11 +98,6 @@ function createEntryObject(date, title, link) {
 }
 
 function createReadableDate(dateString) {
-  // console.log(
-  //   dateString,
-  //   new Date(dateString),
-  //   new Date(dateString).toLocaleDateString()
-  // );
   const date = new Date(dateString);
   return `${date.toLocaleDateString()} ${date
     .getHours()
