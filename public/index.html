@@ -69,14 +69,17 @@
         <div class="content-header">
           <h2 id="what">Your links for later</h2>
 
-          <button type="button" class="btn btn-light" onclick="addEntry()">
+          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal">
             + add
           </button>
         </div>
         <p id="loading" class="d-block">loading your items...</p>
         <div id="content-container" class="d-none">
+          
+        </div>
+        <div id="template_placeholder">
           <ul
-            class="list-group list-group-horizontal pt-3 d-none _template"
+            class="list-group list-group-horizontal pt-3 "
             data-index="-1"
           >
             <li
@@ -96,12 +99,31 @@
       </div>
     </section>
 
+    <div class="modal fade" id="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add a new link manually</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Form fields will be added soon</p>
+            <form id="entry-form"></form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+            <button type="button" class="btn btn-primary" onclick="addNewEntry()">add</button>
+          </div>
+        </div>
+      </div>
+
     <footer>
       <div class="content">
         <code id="debug">nothing to debug</code>
       </div>
     </footer>
 
+    <script defer src="./bootstrap.bundle.min.js"></script>
     <script defer src="./main.js"></script>
   </body>
 </html>

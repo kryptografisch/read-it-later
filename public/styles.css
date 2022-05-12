@@ -53,6 +53,10 @@ body {
   justify-content: space-between;
 }
 
+#template_placeholder {
+  display: none;
+}
+
 .entry-date {
   font-size: 0.9rem;
   font-weight: bold;
@@ -81,6 +85,10 @@ body {
 }
 .content.main button {
   line-height: 1;
+}
+
+#modal {
+  color: black;
 }
 
 section {

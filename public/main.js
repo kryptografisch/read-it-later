@@ -5,7 +5,11 @@ const div_debug = document.getElementById("debug");
 const div_content = document.getElementById("content-container");
 const div_preinstall = document.getElementById("preinstall");
 
-const template = document.getElementsByClassName("_template")[0];
+const template = document
+  .getElementById("template_placeholder")
+  .children[0].cloneNode(true);
+
+const modal = new bootstrap.Modal(document.getElementById("modal"), {});
 
 const dummy = {
   created: createReadableDate(new Date()),
@@ -14,35 +18,16 @@ const dummy = {
   link: "https://kryptografische.biz",
 };
 
-function createReadableDate(dateString) {
-  const date = new Date(dateString);
-  return `${date.toLocaleDateString()} ${date
-    .getHours()
-    .toString()
-    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-}
-function createEntry(data, index) {
-  const item = template.cloneNode(true);
-  item.children[0].children[0].textContent = createReadableDate(data.created);
-  item.children[0].children[1].textContent = data.title;
-  item.children[1].children[0].href = data.link;
-  item.classList.remove("d-none");
-  item.classList.remove("_template");
-  item.setAttribute("data-index", index);
-  div_content.append(item);
-}
-
 const parsedUrl = new URL(window.location.toString());
 if (parsedUrl.searchParams.get("title")?.length) {
   console.log("WE HAVE A NEW ENTRY!");
-  const newEntry = {
-    created: new Date().toISOString(),
-    title: parsedUrl.searchParams.get("title"),
-    link:
-      parsedUrl.searchParams.get("url") ||
+  const newEntry = createEntryObject(
+    new Date(),
+    parsedUrl.searchParams.get("title"),
+    parsedUrl.searchParams.get("url") ||
       parsedUrl.searchParams.get("text") ||
-      parsedUrl.searchParams.get("title"),
-  };
+      parsedUrl.searchParams.get("title")
+  );
   div_debug.textContent = JSON.stringify(newEntry);
 
   const data = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
@@ -54,19 +39,18 @@ const storage = localStorage.getItem(DATA_KEY);
 if (storage != null) {
   div_preinstall.style = "display:none";
 }
-JSON.parse(storage ?? JSON.stringify([dummy]))
-  .reverse()
-  .forEach((element, index) => createEntry(element, index));
+
+const initialEntries = JSON.parse(storage ?? JSON.stringify([dummy]));
+fillDomWithEntries(initialEntries);
 
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");
 
-function addEntry() {
-  console.log("adding entry will be added soon");
-  alert("will be implemented soon!");
-}
+// asnyc functions
+
 function editEntry() {
-  addEntry();
+  console.log("editing will be available soon");
+  alert("edit not implemented yet. coming soon");
 }
 
 function select(elem) {
@@ -74,4 +58,55 @@ function select(elem) {
 }
 function unselect(elem) {
   elem.children[2].classList.remove("show");
+}
+
+function fillDomWithEntries(entries) {
+  div_content.innerHTML = "";
+  entries.reverse().forEach((element, index) => createDomEntry(element, index));
+}
+
+function addNewEntry() {
+  const date = document.getElementsByName("new-date")[0] || new Date();
+  const title = document.getElementsByName("new-title")[0] || "form-test";
+  const link = document.getElementsByName("new-link")[0] || "form-link";
+  const entry = createEntryObject(date, title, link);
+
+  const entries = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
+  entries.push(entry);
+  localStorage.setItem(DATA_KEY, JSON.stringify(entries));
+
+  fillDomWithEntries(entries);
+
+  modal.hide();
+}
+
+function createDomEntry(data, index) {
+  const item = template.cloneNode(true);
+  item.children[0].children[0].textContent = createReadableDate(data.created);
+  item.children[0].children[1].textContent = data.title;
+  item.children[1].children[0].href = data.link;
+  item.setAttribute("data-index", index);
+  div_content.append(item);
+  console.log(div_content.children.length);
+}
+
+function createEntryObject(date, title, link) {
+  return {
+    created: date.toISOString(),
+    title,
+    link,
+  };
+}
+
+function createReadableDate(dateString) {
+  // console.log(
+  //   dateString,
+  //   new Date(dateString),
+  //   new Date(dateString).toLocaleDateString()
+  // );
+  const date = new Date(dateString);
+  return `${date.toLocaleDateString()} ${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
