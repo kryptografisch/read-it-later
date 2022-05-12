@@ -72,10 +72,18 @@
         <h2 id="what">Your resources for later</h2>
         <p id="loading" class="d-block">loading your items...</p>
         <div id="content-container" class="d-none">
-          <ul class="list-group list-group-horizontal pt-3 d-none _template">
-            <li class="list-group-item col">
+          <ul
+            class="list-group list-group-horizontal pt-3 d-none _template"
+            data-index="-1"
+          >
+            <li
+              class="list-group-item col col-text"
+              onclick="select(this)"
+              onmouseout="unselect(this)"
+            >
               <div class="entry-date">__date__</div>
               <div>__title__</div>
+              <a href="" class="edit" onclick="editEntry()">📝</a>
             </li>
             <li class="list-group-item col-1 entry-link">
               <a href="__link__" target="_blank">🔗</a>

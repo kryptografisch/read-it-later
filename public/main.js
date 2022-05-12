@@ -21,13 +21,14 @@ function createReadableDate(dateString) {
     .toString()
     .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
-function createEntry(data) {
+function createEntry(data, index) {
   const item = template.cloneNode(true);
   item.children[0].children[0].textContent = createReadableDate(data.created);
   item.children[0].children[1].textContent = data.title;
   item.children[1].children[0].href = data.link;
   item.classList.remove("d-none");
   item.classList.remove("_template");
+  item.setAttribute("data-index", index);
   div_content.append(item);
 }
 
@@ -55,7 +56,7 @@ if (storage != null) {
 }
 JSON.parse(storage ?? JSON.stringify([dummy]))
   .reverse()
-  .forEach((element) => createEntry(element));
+  .forEach((element, index) => createEntry(element, index));
 
 div_loading.classList = ["d-none"];
 div_content.classList.remove("d-none");
@@ -63,4 +64,14 @@ div_content.classList.remove("d-none");
 function addEntry() {
   console.log("adding entry will be added soon");
   alert("will be implemented soon!");
+}
+function editEntry() {
+  addEntry();
+}
+
+function select(elem) {
+  elem.children[2].classList.add("show");
+}
+function unselect(elem) {
+  elem.children[2].classList.remove("show");
 }

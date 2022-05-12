@@ -32,6 +32,22 @@ body {
   font-style: italic;
 }
 
+.edit {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.edit:not(.show) {
+  display: none;
+}
+.col-text:hover .edit {
+  display: flex;
+}
+
 .entry-date {
   font-size: 0.9rem;
   font-weight: bold;
