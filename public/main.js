@@ -66,6 +66,12 @@ function fillDomWithEntries(entries) {
 }
 
 function addNewEntry() {
+  if (
+    !document.getElementById("form-title").value ||
+    !document.getElementById("form-link").value
+  ) {
+    return;
+  }
   const title = document.getElementById("form-title").value;
   const link = document.getElementById("form-link").value;
   const entry = createEntryObject(new Date(), title, link);
