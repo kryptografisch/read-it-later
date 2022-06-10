@@ -12,7 +12,7 @@ const template = document
 
 const getDataFromDataIndex = (index) => {
   const all = JSON.parse(localStorage.getItem(DATA_KEY) || "[]");
-  return all.reverse()[index] || {};
+  return all[index] || {};
 };
 
 const modal_element = document.getElementById("modal");
@@ -73,7 +73,8 @@ menu_edit.addEventListener("click", () => {
 });
 
 menu_delete.addEventListener("click", (event) => {
-  const index = event.currentTarget.getAttribute("data-index");
+  const index = menu_element.getAttribute("data-current");
+  console.log("delete index", index);
 
   const entries = JSON.parse(localStorage.getItem(DATA_KEY));
   entries.splice(index, 1);
@@ -110,7 +111,7 @@ if (parsedUrl.searchParams.get("title")?.length) {
   div_debug.textContent = JSON.stringify(newEntry);
 
   const data = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
-  data.push(newEntry);
+  data.unshift(newEntry);
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
   window.location.search = "";
 }
@@ -169,11 +170,7 @@ async function askClipboardPermission() {
 
 function fillDomWithEntries(entries) {
   ul_content.innerHTML = "";
-  entries
-    .reverse()
-    .forEach((element, index) =>
-      createDomEntry(element, index, entries.length)
-    );
+  entries.forEach((element, index) => createDomEntry(element, index));
 }
 
 const submit = () => {
@@ -198,7 +195,7 @@ function addNewEntry(title, link) {
   const entry = createEntryObject(new Date(), title, link);
 
   const entries = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
-  entries.push(entry);
+  entries.unshift(entry);
   localStorage.setItem(DATA_KEY, JSON.stringify(entries));
 
   fillDomWithEntries(entries);
@@ -217,7 +214,7 @@ const editEntry = (id, title, link) => {
   modal.hide();
 };
 
-function createDomEntry(data, index, elements) {
+function createDomEntry(data, index) {
   const li = template.cloneNode(true);
   const a = li.children[0];
   a.href = data.link;
@@ -233,8 +230,8 @@ function createDomEntry(data, index, elements) {
       menu.show();
     }
   });
-  // elements are presented newest first. so real index is length - given index.
-  li.setAttribute("data-index", elements - length - 1 - index);
+
+  li.setAttribute("data-index", index);
   ul_content.append(li);
 }
 
