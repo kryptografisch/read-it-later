@@ -128,6 +128,10 @@ li.list-group-item a > div {
   padding: 0.2rem 0.5rem;
 }
 
+#menu-data {
+  font-weight: bold;
+}
+
 section {
   background-color: #171717;
 }

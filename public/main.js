@@ -10,12 +10,24 @@ const template = document
   .getElementById("template_placeholder")
   .children[0].cloneNode(true);
 
+const menu_element = document.getElementById("menu");
 const modal = new bootstrap.Modal(document.getElementById("modal"), {});
-const menu = new bootstrap.Modal(document.getElementById("menu"), {});
+const menu = new bootstrap.Modal(menu_element, {});
 
+const menu_data = document.getElementById("menu-data");
 const menu_open = document.getElementById("menu-open");
 const menu_edit = document.getElementById("menu-edit");
 const menu_delete = document.getElementById("menu-delete");
+
+menu_element.addEventListener("shown.bs.modal", function (e) {
+  const id = menu_element.getAttribute("data-current");
+  const li = document.querySelectorAll(`[data-index="${id}"]`)[0];
+  const link = li.children[0].getAttribute("href");
+  const entry = li.children[1];
+
+  menu_data.innerHTML = entry.children[1].innerHTML;
+  menu_open.setAttribute("data-link", link);
+});
 
 menu_open.addEventListener("click", (event) => {
   const link = event.currentTarget.getAttribute("data-link");
@@ -25,7 +37,7 @@ menu_open.addEventListener("click", (event) => {
 
 menu_edit.addEventListener("click", () => {
   menu.hide();
-  modal.open();
+  modal.show();
 });
 
 menu_delete.addEventListener("click", (event) => {
@@ -164,6 +176,8 @@ function createDomEntry(data, index) {
   li.addEventListener("click", (event) => {
     if (event.target.tagName === "LI") {
       console.log(`li ${event.target.getAttribute("data-index")} clicked.`);
+      const index = event.target.getAttribute("data-index");
+      document.getElementById("menu").setAttribute("data-current", index);
       menu.show();
     }
   });
