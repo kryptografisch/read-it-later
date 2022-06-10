@@ -13,6 +13,31 @@ const template = document
 const modal = new bootstrap.Modal(document.getElementById("modal"), {});
 const menu = new bootstrap.Modal(document.getElementById("menu"), {});
 
+const menu_open = document.getElementById("menu-open");
+const menu_edit = document.getElementById("menu-edit");
+const menu_delete = document.getElementById("menu-delete");
+
+menu_open.addEventListener("click", (event) => {
+  const link = event.currentTarget.getAttribute("data-link");
+  window.open(link);
+  menu.hide();
+});
+
+menu_edit.addEventListener("click", () => {
+  menu.hide();
+  modal.open();
+});
+
+menu_delete.addEventListener("click", (event) => {
+  const index = event.currentTarget.getAttribute("data-index");
+
+  const entries = JSON.parse(localStorage.getItem(DATA_KEY));
+  entries.splice(index, 1);
+  localStorage.setItem(DATA_KEY, JSON.stringify(entries));
+  fillDomWithEntries(entries);
+  menu.hide();
+});
+
 const dummies = [
   {
     created: createReadableDate(new Date()),
