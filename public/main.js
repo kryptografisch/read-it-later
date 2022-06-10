@@ -3,6 +3,7 @@ const DATA_KEY = "ril-pwa-entries";
 const div_loading = document.getElementById("loading");
 const div_debug = document.getElementById("debug");
 const div_content = document.getElementById("content-container");
+const ul_content = div_content.children[0];
 const div_preinstall = document.getElementById("preinstall");
 
 const template = document
@@ -11,12 +12,20 @@ const template = document
 
 const modal = new bootstrap.Modal(document.getElementById("modal"), {});
 
-const dummy = {
-  created: createReadableDate(new Date()),
-  title:
-    "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
-  link: "https://kryptografische.biz",
-};
+const dummies = [
+  {
+    created: createReadableDate(new Date()),
+    title:
+      "Touch right side to open <u>link</u> directly<br>touch left side to open menu",
+    link: "https://kryptografische.biz",
+  },
+  {
+    created: createReadableDate(new Date()),
+    title:
+      "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
+    link: "https://kryptografische.biz",
+  },
+];
 
 const parsedUrl = new URL(window.location.toString());
 if (parsedUrl.searchParams.get("title")?.length) {
@@ -40,7 +49,7 @@ if (storage != null) {
   div_preinstall.style = "display:none";
 }
 
-const initialEntries = JSON.parse(storage ?? JSON.stringify([dummy]));
+const initialEntries = JSON.parse(storage ?? JSON.stringify(dummies));
 fillDomWithEntries(initialEntries);
 
 div_loading.classList = ["d-none"];
@@ -93,15 +102,8 @@ function editEntry() {
   alert("edit not implemented yet. coming soon");
 }
 
-function select(elem) {
-  elem.children[2].classList.add("show");
-}
-function unselect(elem) {
-  elem.children[2].classList.remove("show");
-}
-
 function fillDomWithEntries(entries) {
-  div_content.innerHTML = "";
+  ul_content.innerHTML = "";
   entries.reverse().forEach((element, index) => createDomEntry(element, index));
 }
 
@@ -126,13 +128,21 @@ function addNewEntry() {
 }
 
 function createDomEntry(data, index) {
-  const item = template.cloneNode(true);
-  item.children[0].children[0].textContent = createReadableDate(data.created);
-  item.children[0].children[1].textContent = data.title;
-  item.children[1].children[0].href = data.link;
-  item.setAttribute("data-index", index);
-  div_content.append(item);
-  console.log(div_content.children.length);
+  const li = template.cloneNode(true);
+  const a = li.children[0];
+  a.href = data.link;
+  const content = li.children[1];
+  content.children[0].textContent = createReadableDate(data.created);
+  content.children[1].innerHTML = data.title;
+
+  li.addEventListener("click", (event) => {
+    if (event.target.tagName === "LI") {
+      console.log(`li ${event.target.getAttribute("data-index")} clicked.`);
+      console.log("opening menu");
+    }
+  });
+  li.setAttribute("data-index", index);
+  ul_content.append(li);
 }
 
 function createEntryObject(date, title, link) {
