@@ -50,7 +50,7 @@ menu_element.addEventListener("shown.bs.modal", function (e) {
   const id = menu_element.getAttribute("data-current");
   const data = getDataFromDataIndex(id);
 
-  menu_data.innerHTML = data.title;
+  menu_data.innerHTML = data.title || "Demo Menu";
   menu_open.setAttribute("data-link", data.link);
 });
 
