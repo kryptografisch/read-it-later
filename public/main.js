@@ -10,8 +10,35 @@ const template = document
   .getElementById("template_placeholder")
   .children[0].cloneNode(true);
 
+const getDataFromDataIndex = (index) => {
+  const all = JSON.parse(localStorage.getItem(DATA_KEY) || "[]");
+  return all.reverse()[index] || {};
+};
+
+const modal_element = document.getElementById("modal");
+const modal = new bootstrap.Modal(modal_element, {});
+
+const modal_head = document.getElementById("modal-head");
+
+modal_element.addEventListener("show.bs.modal", (e) => {
+  const id = modal_element.getAttribute("data-current");
+  if (id.length && !isNaN(id)) {
+    const data = getDataFromDataIndex(id);
+    modal_head.textContent = `Edit '${data.title}'`;
+    document.getElementById("form-title").value = data.title;
+    document.getElementById("form-link").value = data.link;
+  } else {
+    modal_head.textContent = `Add a new entry manually`;
+
+    document.getElementById("form-title").value = "";
+    document.getElementById("form-link").value = "";
+  }
+});
+modal_element.addEventListener("hide.bs.modal", () => {
+  modal_element.setAttribute("data-current", "");
+});
+
 const menu_element = document.getElementById("menu");
-const modal = new bootstrap.Modal(document.getElementById("modal"), {});
 const menu = new bootstrap.Modal(menu_element, {});
 
 const menu_data = document.getElementById("menu-data");
@@ -21,12 +48,10 @@ const menu_delete = document.getElementById("menu-delete");
 
 menu_element.addEventListener("shown.bs.modal", function (e) {
   const id = menu_element.getAttribute("data-current");
-  const li = document.querySelectorAll(`[data-index="${id}"]`)[0];
-  const link = li.children[0].getAttribute("href");
-  const entry = li.children[1];
+  const data = getDataFromDataIndex(id);
 
-  menu_data.innerHTML = entry.children[1].innerHTML;
-  menu_open.setAttribute("data-link", link);
+  menu_data.innerHTML = data.title;
+  menu_open.setAttribute("data-link", data.link);
 });
 
 menu_open.addEventListener("click", (event) => {
@@ -36,8 +61,15 @@ menu_open.addEventListener("click", (event) => {
 });
 
 menu_edit.addEventListener("click", () => {
+  modal_element.setAttribute(
+    "data-current",
+    menu_element.getAttribute("data-current")
+  );
+  console.log("attribute on modal set");
   menu.hide();
-  modal.show();
+  setTimeout(() => {
+    modal.show();
+  }, 0);
 });
 
 menu_delete.addEventListener("click", (event) => {
@@ -135,25 +167,34 @@ async function askClipboardPermission() {
 
 // asnyc functions
 
-function editEntry() {
-  console.log("editing will be available soon");
-  alert("edit not implemented yet. coming soon");
-}
-
 function fillDomWithEntries(entries) {
   ul_content.innerHTML = "";
-  entries.reverse().forEach((element, index) => createDomEntry(element, index));
+  entries
+    .reverse()
+    .forEach((element, index) =>
+      createDomEntry(element, index, entries.length)
+    );
 }
 
-function addNewEntry() {
+const submit = () => {
   if (
     !document.getElementById("form-title").value ||
     !document.getElementById("form-link").value
   ) {
     return;
   }
+
+  const id = modal_element.getAttribute("data-current");
   const title = document.getElementById("form-title").value;
   const link = document.getElementById("form-link").value;
+  if (id.length && !isNaN(id)) {
+    editEntry(id, title, link);
+  } else {
+    addNewEntry(title, link);
+  }
+};
+
+function addNewEntry(title, link) {
   const entry = createEntryObject(new Date(), title, link);
 
   const entries = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
@@ -165,7 +206,18 @@ function addNewEntry() {
   modal.hide();
 }
 
-function createDomEntry(data, index) {
+const editEntry = (id, title, link) => {
+  const entries = JSON.parse(localStorage.getItem(DATA_KEY) ?? "[]");
+  entries[id].title = title;
+  entries[id].link = link;
+  localStorage.setItem(DATA_KEY, JSON.stringify(entries));
+
+  fillDomWithEntries(entries);
+
+  modal.hide();
+};
+
+function createDomEntry(data, index, elements) {
   const li = template.cloneNode(true);
   const a = li.children[0];
   a.href = data.link;
@@ -181,7 +233,8 @@ function createDomEntry(data, index) {
       menu.show();
     }
   });
-  li.setAttribute("data-index", index);
+  // elements are presented newest first. so real index is length - given index.
+  li.setAttribute("data-index", elements - length - 1 - index);
   ul_content.append(li);
 }
 
