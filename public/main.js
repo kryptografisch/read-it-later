@@ -11,6 +11,7 @@ const template = document
   .children[0].cloneNode(true);
 
 const modal = new bootstrap.Modal(document.getElementById("modal"), {});
+const menu = new bootstrap.Modal(document.getElementById("menu"), {});
 
 const dummies = [
   {
@@ -73,7 +74,7 @@ async function askClipboardPermission() {
     }
 
     permissionStatus.onchange = () => {
-      console.log("chaned", permissionStatus.state);
+      console.log("changed", permissionStatus.state);
       if (
         permissionStatus.state == "granted" ||
         permissionStatus.state == "prompt"
@@ -138,7 +139,7 @@ function createDomEntry(data, index) {
   li.addEventListener("click", (event) => {
     if (event.target.tagName === "LI") {
       console.log(`li ${event.target.getAttribute("data-index")} clicked.`);
-      console.log("opening menu");
+      menu.show();
     }
   });
   li.setAttribute("data-index", index);

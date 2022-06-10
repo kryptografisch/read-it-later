@@ -115,6 +115,19 @@ li.list-group-item a > div {
   text-align: right;
 }
 
+#menu .list-group {
+  border-radius: 0;
+}
+#menu li.list-group-item {
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+#menu li.list-group-item:first-child {
+  padding: 0.2rem 0.5rem;
+}
+
 section {
   background-color: #171717;
 }
