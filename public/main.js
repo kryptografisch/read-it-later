@@ -87,13 +87,13 @@ const dummies = [
   {
     created: createReadableDate(new Date()),
     title:
-      "Touch right side to open <u>link</u> directly<br>touch left side to open menu",
+      "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
     link: "https://kryptografische.biz",
   },
   {
     created: createReadableDate(new Date()),
     title:
-      "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
+      "Touch right side to open <u>link</u> directly<br>touch left side to open menu",
     link: "https://kryptografische.biz",
   },
 ];
