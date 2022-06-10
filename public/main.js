@@ -93,7 +93,7 @@ const dummies = [
   {
     created: createReadableDate(new Date()),
     title:
-      "Touch right side to open <u>link</u> directly<br>touch left side to open menu",
+      "⬅️ touch left side to open <u>link</u> directly<br>touch right side to open menu ➡️",
     link: "https://kryptografische.biz",
   },
 ];
