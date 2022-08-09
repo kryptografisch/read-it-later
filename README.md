@@ -1,9 +1,14 @@
 # Read It Later PWA
 
-## installed on
+## hosted on
 
-ril.kryptografische.biz
-read-it-later-pwa.herokuapp.com
+[ril.kryptografische.biz](https://ril.kryptografische.biz)
+
+or on read-it-later-pwa.herokuapp.com
+
+## installable on (verified)
+
+chrome for android
 
 ## generate apk
 
