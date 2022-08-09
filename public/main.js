@@ -88,13 +88,13 @@ const dummies = [
     created: createReadableDate(new Date()),
     title:
       "Hello rookie 👋 Your web links will appear here after sharing to this app 🚀",
-    link: "https://github.com/ein-bandit/read-it-later",
+    link: "https://en.wikipedia.org/wiki/Progressive_web_application",
   },
   {
     created: createReadableDate(new Date()),
     title:
       "<span>touch ⬅️ left side to open <u>link</u> directly</span><span>touch ➡️ right side to open menu</span>",
-    link: "https://github.com/ein-bandit",
+    link: "https://web.dev/what-are-pwas/",
     css: "display:flex;justify-content:space-between;",
   },
 ];
