@@ -93,8 +93,9 @@ const dummies = [
   {
     created: createReadableDate(new Date()),
     title:
-      "⬅️ touch left side to open <u>link</u> directly<br>touch right side to open menu ➡️",
+      "<span>touch ⬅️ left side to open <u>link</u> directly</span><span>touch ➡️ right side to open menu</span>",
     link: "https://kryptografische.biz",
+    css: "display:flex;justify-content:space-between;",
   },
 ];
 
@@ -221,6 +222,10 @@ function createDomEntry(data, index) {
   const content = li.children[1];
   content.children[0].textContent = createReadableDate(data.created);
   content.children[1].innerHTML = data.title;
+
+  if (data.css && data.css.length) {
+    content.children[1].style = data.css;
+  }
 
   li.addEventListener("click", (event) => {
     if (event.target.tagName === "LI") {
