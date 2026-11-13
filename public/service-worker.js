@@ -1,4 +1,5 @@
-const cacheName = "cache1"; // Change value to force update
+// Replaced with the commit hash by the deploy workflow, so every deploy gets a fresh cache
+const cacheName = "ril-__CACHE_VERSION__";
 
 self.addEventListener("install", (event) => {
   // Kick out the old service worker
@@ -24,36 +25,38 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  // Delete any non-current cache
+  // Delete any non-current cache and take control of open pages right away
   event.waitUntil(
-    caches.keys().then((keys) => {
-      Promise.all(
-        keys.map((key) => {
-          if (![cacheName].includes(key)) {
-            return caches.delete(key);
-          }
-        })
-      );
-    })
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys.filter((key) => key !== cacheName).map((key) => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
   );
 });
 
-// Offline-first, cache-first strategy
-// Kick off two asynchronous requests, one to the cache and one to the network
-// If there's a cached version available, use it, but fetch an update for next time.
-// Gets data on screen as quickly as possible, then updates once the network has returned the latest data.
+// Network first: updates deployed to GitHub Pages are used on the next launch.
+// The cache is only a fallback when the device is offline.
 self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  const url = new URL(request.url);
+  if (request.method !== "GET" || url.origin !== self.location.origin) {
+    return;
+  }
+
   event.respondWith(
-    caches.open(cacheName).then((cache) => {
-      return cache.match(event.request).then((response) => {
-        return (
-          response ||
-          fetch(event.request).then((networkResponse) => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          })
-        );
-      });
-    })
+    fetch(request)
+      .then((response) => {
+        // Don't cache share URLs (?title=...&url=...), only the plain files
+        if (response.ok && !url.search) {
+          const copy = response.clone();
+          caches.open(cacheName).then((cache) => cache.put(request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request, { ignoreSearch: true }))
   );
 });
