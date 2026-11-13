@@ -10,6 +10,16 @@ const template = document
   .getElementById("template_placeholder")
   .children[0].cloneNode(true);
 
+// Only allow web links, so a shared "javascript:" URL can't run code when opened.
+const safeLink = (link) => {
+  try {
+    const url = new URL(link);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : null;
+  } catch {
+    return null;
+  }
+};
+
 const getDataFromDataIndex = (index) => {
   const all = JSON.parse(localStorage.getItem(DATA_KEY) || "[]");
   return all[index] || {};
@@ -50,13 +60,13 @@ menu_element.addEventListener("shown.bs.modal", function (e) {
   const id = menu_element.getAttribute("data-current");
   const data = getDataFromDataIndex(id);
 
-  menu_data.innerHTML = data.title || "Demo Menu";
+  menu_data.textContent = data.title || "Demo Menu";
   menu_open.setAttribute("data-link", data.link);
 });
 
 menu_open.addEventListener("click", (event) => {
-  const link = event.currentTarget.getAttribute("data-link");
-  window.open(link);
+  const link = safeLink(event.currentTarget.getAttribute("data-link"));
+  if (link) window.open(link);
   menu.hide();
 });
 
@@ -95,19 +105,21 @@ const dummies = [
     title:
       "<span>touch ⬅️ left side to open <u>link</u> directly</span><span>touch ➡️ right side to open menu</span>",
     link: "https://web.dev/what-are-pwas/",
+    html: true,
     css: "display:flex;justify-content:space-between;",
   },
 ];
 
 const parsedUrl = new URL(window.location.toString());
-if (parsedUrl.searchParams.get("title")?.length) {
+const sharedTitle = parsedUrl.searchParams.get("title")?.trim();
+const sharedText = parsedUrl.searchParams.get("text")?.trim();
+const sharedUrl = parsedUrl.searchParams.get("url")?.trim();
+if (sharedTitle || sharedText || sharedUrl) {
   console.log("WE HAVE A NEW ENTRY!");
   const newEntry = createEntryObject(
     new Date(),
-    parsedUrl.searchParams.get("title"),
-    parsedUrl.searchParams.get("url") ||
-      parsedUrl.searchParams.get("text") ||
-      parsedUrl.searchParams.get("title")
+    sharedTitle || sharedText || sharedUrl,
+    sharedUrl || sharedText || sharedTitle
   );
   div_debug.textContent = JSON.stringify(newEntry);
 
@@ -218,10 +230,14 @@ const editEntry = (id, title, link) => {
 function createDomEntry(data, index) {
   const li = template.cloneNode(true);
   const a = li.children[0];
-  a.href = data.link;
+  const link = safeLink(data.link);
+  if (link) a.href = link;
+  else a.removeAttribute("href");
   const content = li.children[1];
   content.children[0].textContent = createReadableDate(data.created);
-  content.children[1].innerHTML = data.title;
+  // Only the built-in demo entries may contain markup; everything else is plain text.
+  if (data.html) content.children[1].innerHTML = data.title;
+  else content.children[1].textContent = data.title;
 
   if (data.css && data.css.length) {
     content.children[1].style = data.css;
