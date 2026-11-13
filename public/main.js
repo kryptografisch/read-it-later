@@ -110,6 +110,15 @@ const dummies = [
   },
 ];
 
+// Ask the browser not to evict our localStorage when the device runs low on space.
+// Chrome decides silently (installed apps usually get it), without prompting the user.
+if (navigator.storage?.persist) {
+  navigator.storage
+    .persisted()
+    .then((persisted) => persisted || navigator.storage.persist())
+    .catch(() => {});
+}
+
 const parsedUrl = new URL(window.location.toString());
 const sharedTitle = parsedUrl.searchParams.get("title")?.trim();
 const sharedText = parsedUrl.searchParams.get("text")?.trim();
