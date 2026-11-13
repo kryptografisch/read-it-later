@@ -1,10 +1,12 @@
 # Read It Later PWA
 
+`Read it later` Progressive WebApp. Share Web-Links to this PWA to read them later.
+
+Needs to be packed as app to use the Android share dialog. See [generate-apk](#generate-apk)
+
 ## hosted on
 
-[ril.kryptografische.biz](https://ril.kryptografische.biz)
-
-or on read-it-later-pwa.herokuapp.com
+[ril @ github](https://kryptografisch.github.io/read-it-later/)
 
 ## installable on (verified)
 
