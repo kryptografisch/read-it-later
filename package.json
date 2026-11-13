@@ -1,13 +1,16 @@
 {
   "name": "read-it-later-pwa",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Read it later Progressive WebApp. Share Web-Links to this pwa to read them later.",
   "main": "index.html",
   "scripts": {
-    "start": "node_modules\\.bin\\http-server -c-1"
+    "start": "http-server -c-1"
   },
-  "author": "kryptograFisch",
+  "author": "kryptografisch",
   "license": "ISC",
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
     "http-server": "^14.1.0"
   }
